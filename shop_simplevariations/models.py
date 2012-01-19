@@ -3,19 +3,22 @@ from django.db import models
 from shop.models.cartmodel import CartItem
 from shop.models.productmodel import Product
 from shop.util.fields import CurrencyField
+from nani.models import TranslatedFields, TranslatableModel
 
 #===============================================================================
 # Text options
 #===============================================================================
 
-class TextOption(models.Model):
+class TextOption(TranslatableModel):
     """
     This part of the option is selected by the merchant - it lets him/her "flag"
     a product as being able to receive some text as an option, and sets its
     price.
     """
-    name = models.CharField(max_length=255, help_text="A name for this option - this will be displayed to the user")
-    description = models.CharField(max_length=255, null=True, blank=True, help_text='A longer description for this option')
+    translations = TranslatedFields(
+        name = models.CharField(max_length=255, help_text="A name for this option - this will be displayed to the user"),
+        description = models.CharField(max_length=255, null=True, blank=True, help_text='A longer description for this option'),
+    )
     price = CurrencyField(help_text='The price for this custom text') # The price
     #length = models.IntegerField() # TODO: make this limiting in the form
     products = models.ManyToManyField(Product, related_name='text_options')
@@ -45,16 +48,18 @@ class CartItemTextOption(models.Model):
 # Multiple choice options
 #===============================================================================
 
-class OptionGroup(models.Model):
+class OptionGroup(TranslatableModel):
     '''
     A logical group of options
     Example:
 
     "Colors"
     '''
-    name = models.CharField(max_length=255)
+    translations = TranslatedFields(
+        name = models.CharField(max_length=255),
+        description = models.CharField(max_length=255, blank=True, null=True),
+    )
     slug = models.SlugField() # Used in forms for example
-    description = models.CharField(max_length=255, blank=True, null=True)
     products = models.ManyToManyField(Product, related_name="option_groups",
                                       blank=True, null=True)
 
@@ -68,7 +73,7 @@ class OptionGroup(models.Model):
         options = Option.objects.filter(group=self)
         return options
 
-class Option(models.Model):
+class Option(TranslatableModel):
     '''
     A product option. Examples:
 
@@ -76,7 +81,9 @@ class Option(models.Model):
     "Blue": 5$
     ...
     '''
-    name = models.CharField(max_length=255)
+    translations = TranslatedFields(
+        name = models.CharField(max_length=255),
+    )
     price = CurrencyField() # Can be negative
     group = models.ForeignKey(OptionGroup)
 

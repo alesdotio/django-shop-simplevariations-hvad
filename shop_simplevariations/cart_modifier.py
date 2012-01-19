@@ -16,7 +16,7 @@ class ProductOptionsModifier(BaseCartModifier):
         for selected_opt in selected_options:
             option_obj = selected_opt.option
             price = option_obj.price * cart_item.quantity
-            data = (option_obj.name, price)
+            data = (option_obj.lazy_translation_getter('name', 'untranslated'), price)
             # Don't forget to update the running total!
             cart_item.current_total = cart_item.current_total + price
             cart_item.extra_price_fields.append(data)
@@ -32,7 +32,7 @@ class TextOptionsModifier(BaseCartModifier):
         text_options = CartItemTextOption.objects.filter(cartitem=cart_item)
         for text_opt in text_options:
             price = text_opt.text_option.price
-            data = ('%s: "%s"' % (text_opt.text_option.name,text_opt.text), price)
+            data = ('%s: "%s"' % (text_opt.text_option.lazy_translation_getter('name', 'untranslated'),text_opt.text), price)
             # Don't forget to update the running total!
             cart_item.current_total = cart_item.current_total + price
             #Append to the cart_item's list now.

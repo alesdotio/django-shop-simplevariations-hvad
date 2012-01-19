@@ -4,14 +4,15 @@ from django.contrib import admin
 from django.contrib.admin.options import TabularInline, ModelAdmin
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.utils.translation import ugettext_lazy as _
+from nani.admin import TranslatableAdmin, TranslatableTabularInline
 from shop_simplevariations.models import Option, OptionGroup, TextOption
 
-class OptionInline(TabularInline):
+class OptionInline(TranslatableTabularInline):
     model = Option
 
-class OptionGroupAdmin(ModelAdmin):
+class OptionGroupAdmin(TranslatableAdmin):
     inlines = [OptionInline,]
-    prepopulated_fields = {"slug": ("name",)}
+    #prepopulated_fields = {"slug": ("name",)} # not supported in hvad yet
     formfield_overrides = {
         models.ManyToManyField: {'widget': FilteredSelectMultiple(
             verbose_name=_('products'),
@@ -21,7 +22,7 @@ class OptionGroupAdmin(ModelAdmin):
 
 admin.site.register(OptionGroup, OptionGroupAdmin)
 
-class TextOptionAdmin(ModelAdmin):
+class TextOptionAdmin(TranslatableAdmin):
     formfield_overrides = {
         models.ManyToManyField: {'widget': FilteredSelectMultiple(
             verbose_name=_('products'),
@@ -30,3 +31,8 @@ class TextOptionAdmin(ModelAdmin):
     }
 
 admin.site.register(TextOption, TextOptionAdmin)
+
+
+class OptionAdmin(TranslatableAdmin):
+    pass
+admin.site.register(Option, OptionAdmin)
