@@ -6,8 +6,8 @@ CLASSIFIERS = []
 setup(
     author="Christopher Glass",
     author_email="tribaal@gmail.com",
-    name='django-shop-simplevariations',
-    version='0.0.4',
+    name='django-shop-simplevariations-hvad',
+    version='0.0.5',
     description='A simple to use product variations module for django SHOP',
     long_description=open(os.path.join(os.path.dirname(__file__), 'README.rst')).read(),
     url='http://www.django-shop.org/',
@@ -17,6 +17,7 @@ setup(
     install_requires=[
         'Django>=1.2',
         'django-shop>=0.0.9',
+        'django-hvad',
     ],
     packages=find_packages(exclude=["example", "example.*"]),
     zip_safe = False
