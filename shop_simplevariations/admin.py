@@ -31,8 +31,3 @@ class TextOptionAdmin(TranslatableAdmin):
     }
 
 admin.site.register(TextOption, TextOptionAdmin)
-
-
-class OptionAdmin(TranslatableAdmin):
-    pass
-admin.site.register(Option, OptionAdmin)
