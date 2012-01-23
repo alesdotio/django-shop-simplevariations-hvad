@@ -18,6 +18,7 @@ setup(
         'Django>=1.2',
         'django-shop>=0.0.9',
         'django-hvad',
+        'django-shop-multiplecurrencies',
     ],
     packages=find_packages(exclude=["example", "example.*"]),
     zip_safe = False

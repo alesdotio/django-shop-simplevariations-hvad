@@ -4,6 +4,7 @@ from shop.models.cartmodel import CartItem
 from shop.models.productmodel import Product
 from shop.util.fields import CurrencyField
 from nani.models import TranslatedFields, TranslatableModel
+from shop_multiplecurrencies.fields import MultipleCurrenciesField
 
 #===============================================================================
 # Text options
@@ -19,7 +20,7 @@ class TextOption(TranslatableModel):
         name = models.CharField(max_length=255, help_text="A name for this option - this will be displayed to the user"),
         description = models.CharField(max_length=255, null=True, blank=True, help_text='A longer description for this option'),
     )
-    price = CurrencyField(help_text='The price for this custom text') # The price
+    price = MultipleCurrenciesField(CurrencyField, help_text='The price for this custom text') # The price
     #length = models.IntegerField() # TODO: make this limiting in the form
     products = models.ManyToManyField(Product, related_name='text_options')
     
@@ -84,7 +85,7 @@ class Option(TranslatableModel):
     translations = TranslatedFields(
         name = models.CharField(max_length=255),
     )
-    price = CurrencyField() # Can be negative
+    price = MultipleCurrenciesField(CurrencyField) # Can be negative
     group = models.ForeignKey(OptionGroup)
 
     def __unicode__(self):
